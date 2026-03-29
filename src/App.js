@@ -1,23 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import ProductForm from "./components/ProductForm";
+import ProductList from "./components/ProductList";
+import SearchBar from "./components/SearchBar";
 
 function App() {
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [editProduct, setEditProduct] = useState(null);
+
+  // Load from localStorage
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("products")) || [];
+    setProducts(data);
+  }, []);
+
+  // Save to localStorage
+  useEffect(() => {
+    localStorage.setItem("products", JSON.stringify(products));
+  }, [products]);
+
+  const addOrUpdateProduct = (product) => {
+    if (editProduct) {
+      setProducts(
+        products.map((p) => (p.id === product.id ? product : p))
+      );
+      setEditProduct(null);
+    } else {
+      setProducts([...products, { ...product, id: Date.now() }]);
+    }
+  };
+
+  const deleteProduct = (id) => {
+    setProducts(products.filter((p) => p.id !== id));
+  };
+
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Product Management</h1>
+
+      <SearchBar search={search} setSearch={setSearch} />
+
+      <ProductForm
+        addOrUpdateProduct={addOrUpdateProduct}
+        editProduct={editProduct}
+      />
+
+      <ProductList
+        products={filteredProducts}
+        onEdit={setEditProduct}
+        onDelete={deleteProduct}
+      />
     </div>
   );
 }
