@@ -178,8 +178,23 @@ p {
   }
 
   .actions {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; /* left side pe rakhega */
+  gap: 10px; /* buttons ke beech space */
+}
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
