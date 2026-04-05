@@ -1,7 +1,7 @@
 import React from "react";
 import ProductItem from "./ProductItem";
 
-function ProductList({ products, onEdit, onDelete }) {
+function ProductList({ products, onEdit, onDelete, onView }) {
   if (products.length === 0) {
     return <p>No products found</p>;
   }
@@ -14,10 +14,11 @@ function ProductList({ products, onEdit, onDelete }) {
           product={product}
           onEdit={onEdit}
           onDelete={onDelete}
+          onView={onView}   // 👈 new prop
         />
       ))}
     </div>
   );
 }
 
-export default ProductList;  
+export default ProductList;
